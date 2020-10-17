@@ -5,7 +5,7 @@
   "main": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fzq19900228/midway2-joi-swagger"
+    "url": "git+https://github.com/fzq19900228/midway2-joi-swagger.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,5 +23,13 @@
     "joi-to-swagger": "^5.0.1",
     "lodash": "^4.17.20",
     "midway": "^2.3.15"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/fzq19900228/midway2-joi-swagger/issues"
+  },
+  "homepage": "https://github.com/fzq19900228/midway2-joi-swagger#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {}
 }
