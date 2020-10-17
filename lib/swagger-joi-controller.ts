@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Put, Del } from '@midwayjs/decorator';
-import * as _ from 'lodash';
-import { IApiObject, IMethodIn, IClassIn } from './interface';
-const j2s = require('joi-to-swagger');
-import validate from './mid-validate';
+import { Controller, Get, Post, Put, Del } from "@midwayjs/decorator";
+import * as _ from "lodash";
+import { IApiObject, IMethodIn, IClassIn } from "./interface";
+const j2s = require("joi-to-swagger");
+import validate from "./mid-validate";
 
 /**
  * used for building swagger docs object
@@ -15,8 +15,8 @@ const apiObjects = {};
  * @param {String} path
  */
 const convertPath = (path: string) => {
-  const re = new RegExp('{(.*?)}', 'g');
-  return path.replace(re, ':$1');
+  const re = new RegExp("{(.*?)}", "g");
+  return path.replace(re, ":$1");
 };
 
 // body 参数 swagger json 化
@@ -27,10 +27,10 @@ const _paramsBody = (parameters: any) => {
   const { swagger } = j2s(parameters);
   return [
     {
-      name: 'data',
-      description: 'request body',
+      name: "data",
+      description: "request body",
       schema: swagger,
-      in: 'body',
+      in: "body",
     },
   ];
 };
@@ -50,9 +50,9 @@ const _paramsList = (parameters: any, type: string) => {
     };
     if (
       swagger.properties[p].example &&
-      swagger.properties[p].example === 'file'
+      swagger.properties[p].example === "file"
     ) {
-      Object.assign(obj, { type: 'file' });
+      Object.assign(obj, { type: "file" });
     }
     return obj;
   });
@@ -65,10 +65,10 @@ const _responsesBody = (body: any) => {
   }
   const { swagger } = j2s(body);
   return {
-    name: 'data',
-    description: 'response body',
+    name: "data",
+    description: "response body",
     schema: swagger,
-    in: 'body',
+    in: "body",
   };
 };
 
@@ -76,7 +76,7 @@ const _responsesBody = (body: any) => {
  * 权限处理
  * @param auth
  */
-const _auth = (auth: string | string[]) => {
+const _auth = (auth: any) => {
   if (!auth) {
     // 获取默认
     return [];
@@ -111,11 +111,11 @@ const _addToApiObject = (key: any, apiObj: any, content: IApiObject) => {
 
 const SwaggerJoiController = (paramIn: IClassIn): ClassDecorator => {
   Object.keys(apiObjects)
-    .filter((p) => p.split('|')[0] === paramIn.api)
+    .filter((p) => p.split("|")[0] === paramIn.api)
     .forEach((p) => {
       apiObjects[p].path = `${paramIn.path}${apiObjects[p].path}`.replace(
-        '//',
-        '/'
+        "//",
+        "/"
       );
       paramIn.description && (apiObjects[p].tags = [paramIn.description]);
     });
@@ -125,7 +125,7 @@ const SwaggerJoiController = (paramIn: IClassIn): ClassDecorator => {
 };
 
 const allSet = (paramIn: IMethodIn, method: string) => {
-  const key = `${paramIn.api}|${method}-${paramIn.path.replace('/', '_')}`;
+  const key = `${paramIn.api}|${method}-${paramIn.path.replace("/", "_")}`;
 
   _addToApiObject(key, apiObjects, {
     api: paramIn.api,
@@ -134,10 +134,10 @@ const allSet = (paramIn: IMethodIn, method: string) => {
     path: paramIn.path,
     summary: paramIn.description,
     description: paramIn.summary,
-    pathParams: _paramsList(paramIn.pathParams, 'path'),
-    query: _paramsList(paramIn.query, 'query'),
+    pathParams: _paramsList(paramIn.pathParams, "path"),
+    query: _paramsList(paramIn.query, "query"),
     body: _paramsBody(paramIn.body),
-    formData: _paramsList(paramIn.formData, 'formData'),
+    formData: _paramsList(paramIn.formData, "formData"),
     security: _auth(paramIn.auth),
     responses: _responsesBody(paramIn.responses),
   });
@@ -147,16 +147,16 @@ const allSet = (paramIn: IMethodIn, method: string) => {
 
 const createSchemaMiddleware = (paramIn: IMethodIn) => {
   const schemaName = [
-    { sname: 'body', key: 'request.body' },
-    { sname: 'pathParams', key: 'params' },
-    { sname: 'query' },
-    { sname: 'formData' },
+    { sname: "body", key: "request.body" },
+    { sname: "pathParams", key: "params" },
+    { sname: "query" },
+    { sname: "formData" },
   ];
   const schemaList = schemaName
     .filter((p) => paramIn[p.sname])
     .map((p) => {
       return {
-        ctxkey: _.get(p, 'key', p.sname),
+        ctxkey: _.get(p, "key", p.sname),
         schemas: paramIn[p.sname],
       };
     });
@@ -165,41 +165,41 @@ const createSchemaMiddleware = (paramIn: IMethodIn) => {
 };
 
 const paramInUpdMiddeware = (paramIn: IMethodIn) => {
-  const tempMidd = _.get(paramIn, 'routerOptions.middleware');
+  const tempMidd = _.get(paramIn, "routerOptions.middleware");
   const validateMid = createSchemaMiddleware(paramIn);
   if (_.isArray(tempMidd)) {
-    _.set(paramIn, 'routerOptions.middleware', [validateMid, ...tempMidd]);
+    _.set(paramIn, "routerOptions.middleware", [validateMid, ...tempMidd]);
   } else if (_.isString(tempMidd)) {
-    _.set(paramIn, 'routerOptions.middleware', [validateMid, tempMidd]);
+    _.set(paramIn, "routerOptions.middleware", [validateMid, tempMidd]);
   } else {
-    _.set(paramIn, 'routerOptions.middleware', [validateMid]);
+    _.set(paramIn, "routerOptions.middleware", [validateMid]);
   }
 };
 
 const SwaggerJoiGet = (paramIn: IMethodIn) => {
-  paramIn.method = 'get';
-  const realPath = allSet(paramIn, 'get');
+  paramIn.method = "get";
+  const realPath = allSet(paramIn, "get");
   paramInUpdMiddeware(paramIn);
   return Get(realPath, paramIn.routerOptions);
 };
 
 const SwaggerJoiPost = (paramIn: IMethodIn) => {
-  paramIn.method = 'post';
-  const realPath = allSet(paramIn, 'post');
+  paramIn.method = "post";
+  const realPath = allSet(paramIn, "post");
   paramInUpdMiddeware(paramIn);
   return Post(realPath, paramIn.routerOptions);
 };
 
 const SwaggerJoiPut = (paramIn: IMethodIn) => {
-  paramIn.method = 'put';
-  const realPath = allSet(paramIn, 'put');
+  paramIn.method = "put";
+  const realPath = allSet(paramIn, "put");
   paramInUpdMiddeware(paramIn);
   return Put(realPath, paramIn.routerOptions);
 };
 
 const SwaggerJoiDel = (paramIn: IMethodIn) => {
-  paramIn.method = 'del';
-  const realPath = allSet(paramIn, 'delete');
+  paramIn.method = "del";
+  const realPath = allSet(paramIn, "delete");
   paramInUpdMiddeware(paramIn);
   return Del(realPath, paramIn.routerOptions);
 };

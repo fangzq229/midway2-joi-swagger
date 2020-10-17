@@ -237,6 +237,11 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/lodash@^4.14.162":
+  version "4.14.162"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.162.tgz#65d78c397e0d883f44afbf1f7ba9867022411470"
+  integrity sha1-ZdeMOX4NiD9Er78fe6mGcCJBFHA=
+
 "@types/mime@*":
   version "2.0.3"
   resolved "https://registry.npm.taobao.org/@types/mime/download/@types/mime-2.0.3.tgz#c893b73721db73699943bfc3653b1deb7faa4a3a"
@@ -2850,6 +2855,11 @@ type-is@^1.6.15, type-is@^1.6.16:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+typescript@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.0.3.tgz#153bbd468ef07725c1df9c77e8b453f8d36abba5"
+  integrity sha1-FTu9Ro7wdyXB35x36LRT+NNqu6U=
 
 uid-safe@2.1.5:
   version "2.1.5"
