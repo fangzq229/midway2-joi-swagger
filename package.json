@@ -1,0 +1,27 @@
+{
+  "name": "midway2-joi-swagger",
+  "version": "1.0.0",
+  "description": "midway2.x joi to swagger",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "midway-bin build -c"
+  },
+  "keywords": [
+    "midway",
+    "swagger",
+    "joi"
+  ],
+  "author": "fzq",
+  "license": "ISC",
+  "dependencies": {
+    "joi": "^17.2.1",
+    "joi-to-swagger": "^5.0.1",
+    "lodash": "^4.17.20",
+    "midway": "^2.3.15"
+  }
+}
