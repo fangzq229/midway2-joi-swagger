@@ -5,7 +5,7 @@
   "main": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com"
+    "url": "https://github.com/fzq19900228/midway2-joi-swagger"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
