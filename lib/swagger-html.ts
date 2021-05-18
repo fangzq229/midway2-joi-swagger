@@ -3,7 +3,6 @@
  */
 const swaggerHTML = (apiPath: string) =>
   `
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

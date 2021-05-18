@@ -1,9 +1,7 @@
 import { Application, Router } from 'egg';
 import { WrapperOptions } from './interface';
-import * as _ from 'lodash';
 import swaggerHTML from './swagger-html';
-import swaggerJSON from './swagger-json';
-import { apiObjects } from './swagger-joi-controller';
+import { swaggerJSON, apiObjects } from './swagger-json';
 
 /**
  * swagger路由注册绑定
@@ -12,19 +10,17 @@ import { apiObjects } from './swagger-joi-controller';
  */
 const handleSwagger = (router: Router, options: WrapperOptions) => {
   const {
-    // 声明json路由
+    // 声明json路由 (swagger)
     swaggerJsonEndpoint = '/swagger-json',
-    // 声明html路由
+    // 声明html路由 (swagger)
     swaggerHtmlEndpoint = '/swagger-html',
     prefix = '',
   } = options;
-
-  // setup swagger router
-  router.get(swaggerJsonEndpoint, async (ctx) => {
+  router.get(swaggerJsonEndpoint, async (ctx: any) => {
     const swaggerJson = swaggerJSON(options, apiObjects);
     ctx.body = swaggerJson;
   });
-  router.get(swaggerHtmlEndpoint, async (ctx) => {
+  router.get(swaggerHtmlEndpoint, async (ctx: any) => {
     ctx.body = swaggerHTML(
       `${prefix}${swaggerJsonEndpoint}`.replace('//', '/')
     );
@@ -49,7 +45,6 @@ const wrapper = (app: Application, options?: WrapperOptions) => {
   };
   Object.assign(opts, options || {});
   const { router } = app;
-
   // 配置是否开启swagger
   if (app.config.swagger) {
     handleSwagger(router, opts);

@@ -36,21 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * 自定义中间件，进行校验处理
- */
-var _ = require("lodash");
 var joi = require("joi");
+/*
+ * joi参数校验处理
+ */
 var validate = function (schemaList) {
     return function (ctx, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _i, schemaList_1, p;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var _i, schemaList_1, p, param, joiArr, _loop_1, k;
+        var _a, _b, _c;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     try {
                         for (_i = 0, schemaList_1 = schemaList; _i < schemaList_1.length; _i++) {
                             p = schemaList_1[_i];
-                            joi.assert(_.get(ctx, p.ctxkey), p.schemas);
+                            param = ctx[p.ctxkey];
+                            joi.assert(param, p.schemas);
+                            joiArr = ((_b = (_a = p.schemas) === null || _a === void 0 ? void 0 : _a.$_terms) === null || _b === void 0 ? void 0 : _b.keys) || [];
+                            _loop_1 = function (k) {
+                                var p1 = joiArr.find(function (i) { return i.key === k; });
+                                if (((_c = p1.schema) === null || _c === void 0 ? void 0 : _c.type) === 'number') {
+                                    ctx[p.ctxkey][k] = Number(ctx[p.ctxkey][k]);
+                                }
+                            };
+                            for (k in param) {
+                                _loop_1(k);
+                            }
                         }
                     }
                     catch (error) {
@@ -58,7 +69,7 @@ var validate = function (schemaList) {
                     }
                     return [4 /*yield*/, next()];
                 case 1:
-                    _a.sent();
+                    _d.sent();
                     return [2 /*return*/];
             }
         });

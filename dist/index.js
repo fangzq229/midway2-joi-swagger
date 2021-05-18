@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SwaggerJoiDel = exports.SwaggerJoiPut = exports.SwaggerJoiPost = exports.SwaggerJoiGet = exports.SwaggerJoiController = exports.wrapper = void 0;
+exports.SwaggerJoiDel = exports.SwaggerJoiPut = exports.SwaggerJoiPost = exports.SwaggerJoiGet = exports.SwaggerJoiController = exports.Put = exports.Del = exports.Post = exports.Get = exports.Controller = exports.wrapper = void 0;
 var wrapper_1 = require("./lib/wrapper");
 Object.defineProperty(exports, "wrapper", { enumerable: true, get: function () { return wrapper_1.wrapper; } });
 var swagger_joi_controller_1 = require("./lib/swagger-joi-controller");
@@ -9,3 +9,13 @@ Object.defineProperty(exports, "SwaggerJoiGet", { enumerable: true, get: functio
 Object.defineProperty(exports, "SwaggerJoiPost", { enumerable: true, get: function () { return swagger_joi_controller_1.SwaggerJoiPost; } });
 Object.defineProperty(exports, "SwaggerJoiPut", { enumerable: true, get: function () { return swagger_joi_controller_1.SwaggerJoiPut; } });
 Object.defineProperty(exports, "SwaggerJoiDel", { enumerable: true, get: function () { return swagger_joi_controller_1.SwaggerJoiDel; } });
+var Controller = swagger_joi_controller_1.SwaggerJoiController;
+exports.Controller = Controller;
+var Get = swagger_joi_controller_1.SwaggerJoiGet;
+exports.Get = Get;
+var Post = swagger_joi_controller_1.SwaggerJoiPost;
+exports.Post = Post;
+var Del = swagger_joi_controller_1.SwaggerJoiDel;
+exports.Del = Del;
+var Put = swagger_joi_controller_1.SwaggerJoiPut;
+exports.Put = Put;

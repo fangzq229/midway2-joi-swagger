@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.wrapper = void 0;
 var swagger_html_1 = require("./swagger-html");
 var swagger_json_1 = require("./swagger-json");
-var swagger_joi_controller_1 = require("./swagger-joi-controller");
 /**
  * swagger路由注册绑定
  * @param router
@@ -47,19 +46,18 @@ var swagger_joi_controller_1 = require("./swagger-joi-controller");
  */
 var handleSwagger = function (router, options) {
     var 
-    // 声明json路由
+    // 声明json路由 (swagger)
     _a = options.swaggerJsonEndpoint, 
-    // 声明json路由
+    // 声明json路由 (swagger)
     swaggerJsonEndpoint = _a === void 0 ? '/swagger-json' : _a, 
-    // 声明html路由
+    // 声明html路由 (swagger)
     _b = options.swaggerHtmlEndpoint, 
-    // 声明html路由
+    // 声明html路由 (swagger)
     swaggerHtmlEndpoint = _b === void 0 ? '/swagger-html' : _b, _c = options.prefix, prefix = _c === void 0 ? '' : _c;
-    // setup swagger router
     router.get(swaggerJsonEndpoint, function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
         var swaggerJson;
         return __generator(this, function (_a) {
-            swaggerJson = swagger_json_1.default(options, swagger_joi_controller_1.apiObjects);
+            swaggerJson = swagger_json_1.swaggerJSON(options, swagger_json_1.apiObjects);
             ctx.body = swaggerJson;
             return [2 /*return*/];
         });
