@@ -4,7 +4,7 @@
 import { WrapperOptions } from './interface';
 import createInit from './swagger-template';
 import { IMethodIn, IClassIn } from './interface';
-const j2s = require('joi-to-swagger');
+import j2s from 'joi-to-swagger';
 export const apiObjects = {};
 
 /**
@@ -124,19 +124,12 @@ const _paramsList = (parameters: any, type: string) => {
   }
   const { swagger } = j2s(parameters);
   return Object.keys(swagger.properties).map(p => {
-    const obj = {
+    return {
       ...swagger.properties[p],
       name: p,
       in: type,
       required: swagger.required ? swagger.required.includes(p) : false,
     };
-    if (
-      swagger.properties[p].example &&
-      swagger.properties[p].example === 'file'
-    ) {
-      Object.assign(obj, { type: 'file' });
-    }
-    return obj;
   });
 };
 

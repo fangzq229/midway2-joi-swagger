@@ -7,9 +7,9 @@ const validate = (schemaList: Array<{ ctxkey: string; schemas: any }>): any => {
   return async (ctx: any, next: () => Promise<any>) => {
     try {
       for (const p of schemaList) {
+        // query 参数 number 类型格式化
         const param = ctx[p.ctxkey];
         joi.assert(param, p.schemas);
-        // query 参数 number 类型格式化
         const joiArr = p.schemas?.$_terms?.keys || [];
         for (const k in param) {
           const p1 = joiArr.find((i: any) => i.key === k);

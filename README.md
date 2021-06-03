@@ -6,7 +6,9 @@
 
 集成 joi 和 swagger，支持自动生成 swagger 和 支持joi参数校验，支持环境配置启停swagger文档，支持Get参数Number类型自动格式化，支持swagger单文件上传
 
-joi 文档地址 [https://joi.dev/api/?v=17.4.0](https://www.runoob.com)
+依赖 joi-to-swagger 包 [https://www.npmjs.com/package/joi-to-swagger](https://www.npmjs.com/package/joi-to-swagger)
+
+joi 文档地址 [https://joi.dev/api/?v=17.4.0](https://joi.dev/api/?v=17.4.0)
 
 
 ## 安装
@@ -40,7 +42,7 @@ swaggerOptions: {
 };
 
 // 配置是否生成 swagger  默认false  (*建议只在dev环境生成*)
- config.swagger = false;
+ config.swagger = true; // 开启生产swagger
  
  // 关闭 CSRF 攻击 防范 ( *只在dev环境关闭* ) 
  config.security = {
@@ -82,7 +84,7 @@ import {
   SwaggerJoiDel as Sjd,
   SwaggerJoiPut as Sjt,
   SwaggerJoiGet as Sjg,
-} from '../lib/swagger-joi-controller';
+} from 'midway2-joi-swagger';
 
 @Provide()
 @Sjc({
@@ -110,13 +112,13 @@ export class TestController {
     }),
     description: '获取列表',
   })
-  async getUser(ctx): Promise<any> {
+  async getUser(ctx): Promise<void> {
     ctx.body = ctx.query;
   }
 
   @Sjp({
     api: 'api',
-    path: '/add/',
+    path: '/add',
     summary: 'add',
     body: joi.object().keys({
       name: joi.string().max(20).min(6).description('名称'),
@@ -124,8 +126,19 @@ export class TestController {
     responses: joi.object().keys({ id: joi.number().description('id') }),
     description: '添加',
   })
-  async add(ctx): Promise<any> {
+  async add(ctx): Promise<void> {
     ctx.body = ctx.request.body;
+  }
+
+  @Sjp({
+    api: 'api',
+    path: '/upload',
+    summary: 'upload',
+    body: joi.any().meta({ swaggerType: 'file' }).description('simpleFile'),
+    description: '上传文件',
+  })
+  async upload(ctx): Promise<void> {
+    ctx.body = {};
   }
 
   @Sjt({
@@ -144,7 +157,7 @@ export class TestController {
     }),
     description: '更新',
   })
-  async edit(ctx): Promise<any> {
+  async edit(ctx): Promise<void> {
     ctx.body = { ...ctx.request.body, ...ctx.params };
   }
 
@@ -160,7 +173,7 @@ export class TestController {
     }),
     description: '删除',
   })
-  async del(ctx): Promise<any> {
+  async del(ctx): Promise<void> {
     ctx.body = { ...ctx.params };
   }
 }
@@ -174,3 +187,10 @@ export class TestController {
 
 
 ![Markdown preferences pane](https://fzq.oss-cn-beijing.aliyuncs.com/commom/WeChatc45f9ed6c833d0debb8294851f28d0fc.png)
+
+
+## 新添加导出支持
+
+```
+  import { Controller, Get, Post, Del, Put } from 'midway2-joi-swagger';
+```

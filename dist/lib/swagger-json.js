@@ -18,7 +18,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.swaggerJSON = exports.addToApiObject = exports.addToApiGroup = exports.apiObjects = void 0;
 var swagger_template_1 = require("./swagger-template");
-var j2s = require('joi-to-swagger');
+var joi_to_swagger_1 = require("joi-to-swagger");
 exports.apiObjects = {};
 /**
  * 根据类（controller） 生成swagger对象
@@ -103,7 +103,7 @@ var _paramsBody = function (parameters) {
     if (!parameters) {
         return undefined;
     }
-    var swagger = j2s(parameters).swagger;
+    var swagger = joi_to_swagger_1.default(parameters).swagger;
     return [
         {
             name: 'data',
@@ -118,14 +118,9 @@ var _paramsList = function (parameters, type) {
     if (!parameters) {
         return undefined;
     }
-    var swagger = j2s(parameters).swagger;
+    var swagger = joi_to_swagger_1.default(parameters).swagger;
     return Object.keys(swagger.properties).map(function (p) {
-        var obj = __assign(__assign({}, swagger.properties[p]), { name: p, in: type, required: swagger.required ? swagger.required.includes(p) : false });
-        if (swagger.properties[p].example &&
-            swagger.properties[p].example === 'file') {
-            Object.assign(obj, { type: 'file' });
-        }
-        return obj;
+        return __assign(__assign({}, swagger.properties[p]), { name: p, in: type, required: swagger.required ? swagger.required.includes(p) : false });
     });
 };
 // 请求 responsesBody swagger json 化
@@ -133,7 +128,7 @@ var _responsesBody = function (body) {
     if (!body) {
         return undefined;
     }
-    var swagger = j2s(body).swagger;
+    var swagger = joi_to_swagger_1.default(body).swagger;
     return {
         name: 'data',
         description: 'response body',

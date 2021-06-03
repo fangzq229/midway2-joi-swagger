@@ -9,7 +9,7 @@ const swaggerHTML = (apiPath: string) =>
   <meta charset="UTF-8">
   <title>Swagger UI</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
-  <link href="https://cdn.staticfile.org/swagger-ui/3.0.19/swagger-ui.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/swagger-ui/3.47.1/swagger-ui.css" rel="stylesheet">
 
   <style>
     html
@@ -69,8 +69,8 @@ const swaggerHTML = (apiPath: string) =>
 
   <div id="swagger-ui"></div>
 
-  <script src="https://cdn.staticfile.org/swagger-ui/3.0.19/swagger-ui-bundle.js"></script>
-  <script src="https://cdn.staticfile.org/swagger-ui/3.0.19/swagger-ui-standalone-preset.js"></script>
+  <script src="https://cdn.staticfile.org/swagger-ui/3.47.1/swagger-ui-bundle.js"></script>
+  <script src="https://cdn.staticfile.org/swagger-ui/3.47.1/swagger-ui-standalone-preset.js"></script>
   <script>
   window.onload = function() {
     // Build a system
