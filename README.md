@@ -134,7 +134,9 @@ export class TestController {
     api: 'api',
     path: '/upload',
     summary: 'upload',
-    body: joi.any().meta({ swaggerType: 'file' }).description('simpleFile'),
+    formData: joi.object().keys({
+      file: joi.any().meta({ swaggerType: 'file' }).description('simpleFile'),
+    }),
     description: '上传文件',
   })
   async upload(ctx): Promise<void> {
