@@ -42,20 +42,22 @@ var joi = require("joi");
  */
 var validate = function (schemaList) {
     return function (ctx, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _i, schemaList_1, p, param, joiArr, _loop_1, k;
-        var _a, _b, _c;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var _i, schemaList_1, p, param, joiArr, _loop_1, k, e;
+        var _a, _b, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
                 case 0:
                     try {
                         for (_i = 0, schemaList_1 = schemaList; _i < schemaList_1.length; _i++) {
                             p = schemaList_1[_i];
-                            param = ctx[p.ctxkey];
+                            param = p.ctxkey.includes("body")
+                                ? ctx.request.body
+                                : ctx[p.ctxkey];
                             joi.assert(param, p.schemas);
                             joiArr = ((_b = (_a = p.schemas) === null || _a === void 0 ? void 0 : _a.$_terms) === null || _b === void 0 ? void 0 : _b.keys) || [];
                             _loop_1 = function (k) {
                                 var p1 = joiArr.find(function (i) { return i.key === k; });
-                                if (((_c = p1.schema) === null || _c === void 0 ? void 0 : _c.type) === 'number') {
+                                if (((_c = p1.schema) === null || _c === void 0 ? void 0 : _c.type) === "number") {
                                     ctx[p.ctxkey][k] = Number(ctx[p.ctxkey][k]);
                                 }
                             };
@@ -65,11 +67,12 @@ var validate = function (schemaList) {
                         }
                     }
                     catch (error) {
-                        return [2 /*return*/, ctx.throw(422, JSON.stringify(error.message))];
+                        e = error.details ? (_d = error.details[0]) === null || _d === void 0 ? void 0 : _d.message : "Parameter error";
+                        return [2 /*return*/, ctx.throw(422, e)];
                     }
                     return [4 /*yield*/, next()];
                 case 1:
-                    _d.sent();
+                    _e.sent();
                     return [2 /*return*/];
             }
         });
