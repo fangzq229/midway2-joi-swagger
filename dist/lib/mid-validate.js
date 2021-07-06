@@ -50,15 +50,18 @@ var validate = function (schemaList) {
                     try {
                         for (_i = 0, schemaList_1 = schemaList; _i < schemaList_1.length; _i++) {
                             p = schemaList_1[_i];
-                            param = p.ctxkey.includes("body")
+                            param = p.ctxkey.includes('body')
                                 ? ctx.request.body
                                 : ctx[p.ctxkey];
+                            if (!param) {
+                                continue;
+                            }
                             joi.assert(param, p.schemas);
                             joiArr = ((_b = (_a = p.schemas) === null || _a === void 0 ? void 0 : _a.$_terms) === null || _b === void 0 ? void 0 : _b.keys) || [];
                             _loop_1 = function (k) {
                                 var p1 = joiArr.find(function (i) { return i.key === k; });
-                                if (((_c = p1.schema) === null || _c === void 0 ? void 0 : _c.type) === "number") {
-                                    ctx[p.ctxkey][k] = Number(ctx[p.ctxkey][k]);
+                                if (((_c = p1.schema) === null || _c === void 0 ? void 0 : _c.type) === 'number') {
+                                    param[k] = Number(param[k]);
                                 }
                             };
                             for (k in param) {
@@ -67,7 +70,7 @@ var validate = function (schemaList) {
                         }
                     }
                     catch (error) {
-                        e = error.details ? (_d = error.details[0]) === null || _d === void 0 ? void 0 : _d.message : "Parameter error";
+                        e = error.details ? (_d = error.details[0]) === null || _d === void 0 ? void 0 : _d.message : 'parameter error';
                         return [2 /*return*/, ctx.throw(422, e)];
                     }
                     return [4 /*yield*/, next()];

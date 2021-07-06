@@ -137,7 +137,7 @@ export class TestController {
     formData: joi.object().keys({
       file: joi.any().meta({ swaggerType: 'file' }).description('simpleFile'),
     }),
-    description: '上传文件',
+    description: '上传文件',     // 注意文件上传 joi不会自动校验参数
   })
   async upload(ctx): Promise<void> {
     ctx.body = {};
